@@ -1,0 +1,70 @@
+# Things that build natively on purpose
+IGNORE_DIR usr/src/cmd/fm/eversholt/native
+IGNORE_DIR usr/src/cmd/mdb/tools/setdynflag
+IGNORE_DIR usr/src/lib/libuutil/native
+IGNORE_DIR usr/src/tools
+
+# Headers we take from adjuncts, etc, on purpose
+IGNORE_HEADER /opt/gcc
+IGNORE_HEADER /usr/include/dbus-1.0
+IGNORE_HEADER /usr/include/expat
+IGNORE_HEADER /usr/include/glib-2.0
+IGNORE_HEADER /usr/include/libxml2
+IGNORE_HEADER /usr/include/mps
+IGNORE_HEADER /usr/include/net-snmp
+IGNORE_HEADER /usr/include/openssl-3
+IGNORE_HEADER /usr/include/python3.11
+IGNORE_HEADER /usr/include/trousers
+IGNORE_HEADER /usr/include/tss
+IGNORE_HEADER /usr/include/zconf.h
+IGNORE_HEADER /usr/include/zlib.h
+IGNORE_HEADER /usr/jdk
+IGNORE_HEADER /usr/lib/dbus-1.0
+IGNORE_HEADER /usr/lib/glib-2.0
+IGNORE_HEADER /usr/lib/mps
+IGNORE_HEADER /usr/perl5
+IGNORE_HEADER /usr/include/idn
+
+# Commands that build native components mixed in with non-native
+# and need to be excluded by path and specific target
+IGNORE_TARGET usr/src/cmd/awk:maketab
+IGNORE_TARGET usr/src/cmd/lp/filter/postscript/font:native/makedev
+IGNORE_TARGET usr/src/cmd/sgs/elfdump/amd64:gen_struct_layout
+IGNORE_TARGET usr/src/cmd/sgs/elfdump/aarch64:gen_struct_layout
+IGNORE_TARGET usr/src/cmd/spell:hash.o
+IGNORE_TARGET usr/src/cmd/spell:hashmake.o
+IGNORE_TARGET usr/src/cmd/spell:huff.o
+IGNORE_TARGET usr/src/cmd/spell:spellin.o
+IGNORE_TARGET usr/src/cmd/svc/configd:*-native.o
+IGNORE_TARGET usr/src/cmd/svc/svccfg:*-native.o
+IGNORE_TARGET usr/src/lib/libsqlite/i386:objs/*-native.o
+IGNORE_TARGET usr/src/lib/libsqlite/i386:lemon
+IGNORE_TARGET usr/src/lib/libsqlite/aarch64:objs/*-native.o
+IGNORE_TARGET usr/src/lib/libsqlite/aarch64:lemon
+IGNORE_TARGET usr/src/uts/intel/audioemu10k:debug64/asm10k
+IGNORE_TARGET usr/src/uts/intel/audioemu10k:obj64/asm10k
+IGNORE_TARGET usr/src/uts/aarch64/audioemu10k:debug64/asm10k
+IGNORE_TARGET usr/src/uts/aarch64/audioemu10k:obj64/asm10k
+
+# GCC's C++ runtime headers are on the default search path (for C++), after
+# our proto headers, and yet use #include_next, which forces the search for
+# the underlying header to begin _at that point_ in the path, and causes us to
+# search the build machine for them.
+#
+# Arguably, for eg. <cstdlib> should #include <stdlib.h> and start over at
+# the beginning, but it does not, and here we are.
+#
+# C++ components using C++-standard versions of traditional header names need
+# to be exceptions.
+IGNORE_DIR usr/src/lib/sun_fc
+
+# cross-compiling perl bits leaves us with target headers coming from the
+# cross structure
+IGNORE_DIR usr/src/cmd/perl/contrib/**/aarch64
+
+# bug #15582
+IGNORE_DIR usr/src/cmd/fs.d/smbclnt/fksmbcl
+IGNORE_DIR usr/src/cmd/smbsrv/testoplock
+IGNORE_DIR usr/src/lib/smbclnt/libfksmbfs
+IGNORE_DIR usr/src/lib/smbclnt/libfknsmb
+IGNORE_DIR usr/src/lib/smbsrv/libfksmbsrv
